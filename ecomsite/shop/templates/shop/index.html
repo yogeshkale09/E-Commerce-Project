@@ -1,0 +1,147 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>E-commerce Site</title>
+    <link rel="stylesheet" href="{% static 'shop/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="#">E-commerce Product App</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home <span class="sr-only"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Category</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Cart(0)</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#">Orders</a>
+                        </li>
+                        </ul>
+                    </div>
+                    </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form class="card cars-sm">
+                    <div class="card-body row no-gutters align-items-center">
+                        <div class="col">
+                            <input type="search" name='item_name' placeholder="Search for Products" class="form-control form-control-borderless">
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-success" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="row">
+        {% for product in product_objects %}
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="{{ product.image}}" class "card-img-top">
+                    <div class="card-body">
+                        <div class="card-title">
+                            {{ product.title }}
+                        </div>
+                        <!--my wark-->
+                        <div class="card-discription">
+                            {{ product.description }}
+                        </div>
+                        <div class="card-text">
+                            Rs. {{ product.price }}
+                        </div>
+                        <!--my work-->
+                        <div class="card-text">
+                            In Stock: {{ product.stock }}
+                        </div>
+                        <button href="/{{ product.id }}" class="btn btn-warning">View</button>
+                        <button class="btn atc btn-warning">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+<!--pagination-->
+        <div class="row">
+            <div class="col-md-3 offset-md-4">
+                <ul class="pagination">
+                    {% if product_objects.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ product_objects.previous_page_number }}">Previous</a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item active">
+                        <a class="page-link" href="?page={{ product_objects.number }}">Current</a>
+                    </li>
+                    {% if product_objects.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ product_objects.next_page_number }}">Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    console.log("This is working");
+
+    if(localStorage.getItem('cart')==null){
+        var cart = {};
+
+    }
+    else{
+        cart=JSON.parse(localStorage.getItem('cart'));
+    }
+
+    $(document).on('click', '.atc', function() {
+        console.log("The add to cart click");
+        var item_id = $(this).attr('id'); // Get the id attribute of the clicked element
+        console.log(item_id);
+
+        if(cart[item_id] != undefined){
+            cart[item_id] = cart[item_id] + 1;
+        }
+        else{
+            cart[item_id] = 1;
+        }
+        console.log(cart);
+        localStorage.getItem('cart',JSON.stringify(cart));
+        document.getElementById("cart").innerHTML="Cart("+Object.keys(cart).length+")";
+        
+    });
+    $(function () {
+        $('.example-popover').popover({
+            container: 'body'
+            })
+        })
+    
+</script>
+</html>
+
+
+
+
