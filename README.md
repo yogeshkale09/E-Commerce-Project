@@ -3,8 +3,9 @@
 ## Project Overview
 
 This project is a comprehensive e-commerce platform built using Django. It provides functionality to list, search, and view product details while enabling a seamless cart and checkout experience. The project integrates modern web development practices with Django's powerful backend features, making it a practical guide for building scalable e-commerce applications.
+![Screenshot 2025-01-09 140720](https://github.com/user-attachments/assets/8a6fd1e2-f0ef-470d-963c-2c43b6c0b453)
 
-
+---
 ## Features and Steps Implemented
 
 ### 1. *Creating Product Model*
